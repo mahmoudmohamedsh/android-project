@@ -16,20 +16,33 @@ import android.widget.ImageButton;
 
 import com.example.finaltry.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SignUP extends AppCompatActivity {
     private TextInputEditText firstName;
@@ -63,6 +76,9 @@ public class SignUP extends AppCompatActivity {
         signUp = (Button)findViewById(R.id.SignUp);
         goLog = (Button)findViewById(R.id.goLog);
         imageButton = (ImageButton)findViewById(R.id.Sign_image);
+        /*
+        add by sharp
+         */
 
         mProgressDialog = new ProgressDialog(this);
         goLog.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +104,8 @@ public class SignUP extends AppCompatActivity {
                 createNewAccount();
             }
         });
+
+
     }
     private void createNewAccount(){
          String name = firstName.getText().toString().trim();
@@ -105,8 +123,9 @@ public class SignUP extends AppCompatActivity {
                                  /**
                                   * add by sharp
                                   */
-                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                //create profile data
                                  UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                          .setDisplayName(name+" "+lname)
                                          .setPhotoUri(Uri.parse("https://homepages.cae.wisc.edu/~ece533/images/airplane.png"))
